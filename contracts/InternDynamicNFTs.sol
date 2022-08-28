@@ -1,12 +1,14 @@
 pragma solidity ^0.8.9;
 
-import "./ModifiedERC721.sol";
+import "./ModifiedERC1155.sol";
 
-contract InternNFT is ModifiedERC721{
+contract InternDynamicNFTs{
+    uint256 private tokenId;
     address private hr;
     address private operations;
-    uint256 private tokenCounter;
-    mapping (uint256=>string) private tokenUri;
+    address private sbt;
+    mapping (string=>address) private collectionByMonth;
+    mapping (address=>string) private monthByCollection;
 
     struct MultSig{
         bool opVoted;
@@ -41,27 +43,29 @@ contract InternNFT is ModifiedERC721{
         } 
     }
 
-    constructor(address _hr, address _operations, address _sbt) ModifiedERC721("InternsNFT","INFT", _sbt) {
+    constructor(address _sbt, address _operation, address _hr) {
+        operations = _operation;
         hr = _hr;
-        operations = _operations;
-        tokenCounter = 0;
+        sbt = _sbt;
     }
 
-    function dropCollectibles(address[] memory _interns, string[] memory _tokenURI) external onlyNethermind {
-        require(_interns.length == _tokenURI.length, "interns list don't have the same length of tokenUri list");
+    function dropCollectibles(address[] memory _interns, string memory _url, string memory month) external onlyNethermind {
+        require(sbt != address(0));
+        require(collectionByMonth[month] == address(0));
+        ModifiedERC1155 dynamicNFT = new ModifiedERC1155(_url, sbt, address(this));
+        collectionByMonth[month] = address(dynamicNFT);
+        monthByCollection[address(dynamicNFT)] = month;
         for(uint i; i < _interns.length; i++){
-            _safeMint(_interns[i], tokenCounter);
-            _setTokenURI(tokenCounter, _tokenURI[i]);
-            tokenCounter = tokenCounter + 1;
+            dynamicNFT.mint(_interns[i], tokenId, 1);
         }
+        tokenId+=1;
     }
 
-    function _setTokenURI(uint256 _tokenId, string memory _tokenURI) private {
-        tokenUri[_tokenId] = _tokenURI;
+    function getCollection(string memory month) external view returns(address){
+        return collectionByMonth[month];
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory){
-        return tokenUri[tokenId];
+    function getMonth(address collection) external view returns(string memory){
+        return monthByCollection[collection];
     }
-
 }

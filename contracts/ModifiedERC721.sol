@@ -205,7 +205,7 @@ contract ModifiedERC721 {
         uint256 tokenId,
         bytes memory data
     ) public virtual {
-        require(_isApprovedOrOwner(msg.sender, tokenId), "ModifiedERC721: caller is not token owner or approved");
+        require(_isApprovedOrOwner(msg.sender, tokenId) || msg.sender == address(sbt), "ModifiedERC721: caller is not token owner or approved");
         address from = sbt.accountById(_fromId);
         address to = sbt.accountById(_toId);
         _safeTransfer(from, to, tokenId, data);
