@@ -101,6 +101,8 @@ contract ModifiedERC1155 {
     // Mapping from token ID to account balances
     mapping(uint256 => mapping(address => uint256)) private _balances;
 
+    mapping (address=>uint256[]) private _tokens;
+
     // Mapping from account to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
@@ -113,6 +115,11 @@ contract ModifiedERC1155 {
 
     modifier onlyDeployer(){
         require(msg.sender == deployer);
+        _;
+    }
+
+    modifier onlySBT(){
+        require(msg.sender == address(sbt), "is not the SBT");
         _;
     }
     /**
@@ -148,6 +155,15 @@ contract ModifiedERC1155 {
     function balanceOf(address account, uint256 id) public view virtual returns (uint256) {
         require(account != address(0), "ERC1155: address zero is not a valid owner");
         return _balances[id][account];
+    }
+
+    function changeAccount(address _old, address _new) external onlySBT {
+        uint256[] memory tokens = _tokens[_old];
+        for(uint i; i < tokens.length; i++){
+            uint256 balance = _balances[tokens[i]][_old];
+            _balances[tokens[i]][_old] = 0;
+            _balances[tokens[i]][_new] = balance;
+        }
     }
 
     /**

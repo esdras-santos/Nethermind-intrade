@@ -57,8 +57,9 @@ contract InternDynamicNFTs{
         monthByCollection[address(dynamicNFT)] = month;
         for(uint i; i < _interns.length; i++){
             dynamicNFT.mint(_interns[i], tokenId, 1);
+            tokenId+=1;
         }
-        tokenId+=1;
+        tokenId = 0;
     }
 
     function getCollection(string memory month) external view returns(address){

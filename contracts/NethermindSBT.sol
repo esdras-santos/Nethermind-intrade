@@ -2,25 +2,11 @@
 pragma solidity ^0.8.9;
 
 interface DynamicNFT{
-    function safeTransferFrom(
-        uint256 _fromId,
-        uint256 _toId,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
-    ) external;
-
-    function balanceOf(address account, uint256 id) external view returns (uint256);
+    function changeAccount(address _old, address _new)  external;
 }
 
 interface NFT{
-    function safeTransferFrom(
-        uint256 _fromId,
-        uint256 _toId,
-        uint256 tokenId
-    ) external;
-
-
+    function changeAccount(address _old, address _new)  external;
 }
 
 contract NethermindSBT {
@@ -85,16 +71,13 @@ contract NethermindSBT {
     function revoke(
         uint256 _id, 
         address _dynamicNftCollection, 
-        address _nftCollection,
-        uint256 _dynamicNftId,
-        uint256 _nftId
+        address _nftCollection
     ) onlyNethermind(0x20c5429b) external {
         DynamicNFT dnft = DynamicNFT(_dynamicNftCollection);
         NFT nft = NFT(_nftCollection);
         address account = idToAccount[_id];
-        uint256 balance = dnft.balanceOf(account, _dynamicNftId); 
-        dnft.safeTransferFrom(_id, nethermindId, _dynamicNftId, balance, "");
-        nft.safeTransferFrom(_id, nethermindId, _nftId);       
+        dnft.changeAccount(account, idToAccount[nethermindId]);
+        nft.changeAccount(account, idToAccount[nethermindId]);       
         delete url[_id];
         delete accountToId[idToAccount[_id]];
         delete idToAccount[_id];
@@ -112,19 +95,20 @@ contract NethermindSBT {
         return accountToId[_account];
     }    
 
-
-    // change account needs to be externally called from inside the NFTs collections
     function changeAccount(
         uint256 _id, 
         address _newAccount,
         address _dynamicNftCollection, 
-        address _nftCollection,
-        uint256 _dynamicNftId,
-        uint256 _nftId
+        address _nftCollection
     ) external onlyNethermind(0x6550f1d2){
         require(_newAccount != address(0x00));
         delete accountToId[idToAccount[_id]];
         idToAccount[_id] = _newAccount;
         accountToId[_newAccount] = _id;
+        DynamicNFT dnft = DynamicNFT(_dynamicNftCollection);
+        NFT nft = NFT(_nftCollection);
+        address account = idToAccount[_id];
+        dnft.changeAccount(account, idToAccount[nethermindId]);
+        nft.changeAccount(account, idToAccount[nethermindId]);
     }
 }

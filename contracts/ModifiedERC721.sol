@@ -56,6 +56,8 @@ contract ModifiedERC721 {
     // Mapping from token ID to owner address
     mapping(uint256 => address) private _owners;
 
+    mapping (address=>uint256[]) private _tokens;
+
     // Mapping owner address to token count
     mapping(address => uint256) private _balances;
 
@@ -66,6 +68,11 @@ contract ModifiedERC721 {
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     NethermindSBT private sbt;
+
+    modifier onlySBT(){
+        require(msg.sender == address(sbt), "is not theSBT");
+        _;
+    }
 
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
@@ -95,6 +102,12 @@ contract ModifiedERC721 {
         address owner = _owners[tokenId];
         require(owner != address(0), "ModifiedERC721: invalid token ID");
         return owner;
+    }
+
+    function changeAccount(address _old, address _new)  external onlySBT{
+        uint256[] memory tokens = _tokens[_old];
+        delete _tokens[_old];
+        _tokens[_new] = tokens;
     }
 
     /**
@@ -323,6 +336,7 @@ contract ModifiedERC721 {
         }
 
         _owners[tokenId] = to;
+        _tokens[to].push(tokenId);
 
         emit Transfer(address(0), to, tokenId);
 
@@ -400,6 +414,7 @@ contract ModifiedERC721 {
             _balances[to] += 1;
         }
         _owners[tokenId] = to;
+        _tokens[to].push(tokenId);
 
         emit Transfer(from, to, tokenId);
 
