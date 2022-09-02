@@ -1,14 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-interface DynamicNFT{
-    function changeAccount(address _old, address _new)  external;
-}
-
-interface NFT{
-    function changeAccount(address _old, address _new)  external;
-}
-
 contract NethermindSBT {
     address private operations;
     address private hr;
