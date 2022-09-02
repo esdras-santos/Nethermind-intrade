@@ -10,13 +10,13 @@ interface NFT{
 }
 
 contract NethermindSBT {
-    uint256 private nethermindId;
     address private operations;
     address private hr;
+    uint256 private tokenCounter;
+    string private _name;
     // need to add a list for pending transactions
-    mapping (address=>uint256) private accountToId;
-    mapping (uint256=>string) private url;
-    mapping (uint256=>address) private idToAccount;
+    mapping (uint256=>string) private uri;
+    mapping (uint256=>address) private owner;
 
     struct MultSig{
         bool opVoted;
@@ -52,63 +52,40 @@ contract NethermindSBT {
         } 
     }
 
-    constructor(address _operations, address _hr, address _nethermindAcc, string memory _nethermindUrl){
+    constructor(address _operations, address _hr, string memory name_){
         operations = _operations;
         hr = _hr;
-        nethermindId = uint256(keccak256(abi.encodePacked("Nethermind")));
-        url[nethermindId] = _nethermindUrl;
-        idToAccount[nethermindId] = _nethermindAcc;
-        accountToId[_nethermindAcc] = nethermindId;
+        _name = name_;
     }
     
-    function issue(string memory _name, address _account, string memory _url) onlyNethermind(0x009a0443) external {
-        uint256 id = uint256(keccak256(abi.encodePacked(_name)));
-        url[id] = _url;
-        idToAccount[id] = _account;
-        accountToId[_account] = id;
+    function name() external view returns (string memory){
+        return _name;
     }
 
-    function revoke(
-        uint256 _id, 
-        address _dynamicNftCollection, 
-        address _nftCollection
-    ) onlyNethermind(0x20c5429b) external {
-        DynamicNFT dnft = DynamicNFT(_dynamicNftCollection);
-        NFT nft = NFT(_nftCollection);
-        address account = idToAccount[_id];
-        dnft.changeAccount(account, idToAccount[nethermindId]);
-        nft.changeAccount(account, idToAccount[nethermindId]);       
-        delete url[_id];
-        delete accountToId[idToAccount[_id]];
-        delete idToAccount[_id];
+    function issue(address _soul, string memory _uri) onlyNethermind(0x009a0443) external {
+        require(_soul != address(0));
+        uri[tokenCounter] = _uri;
+        owner[tokenCounter] = _soul;
+        tokenCounter+=1;
     }
 
-    function tokenURL(uint256 _id) external view returns(string memory) {
-        return url[_id];
+    function revoke(uint256 _tokenId) onlyNethermind(0x20c5429b) external {       
+        delete uri[_tokenId];
+        delete owner[_tokenId];
     }
 
-    function accountById(uint256 _id) external view returns(address){
-        return idToAccount[_id];
+    // commutnity recovery to avoid the private key commercialization
+    function recovery(address _oldSoul, address _newSoul, uint256 _tokenId) external onlyNethermind(0x00) {
+        require(_oldSoul == owner[_tokenId], "current owner is not equal to _oldSoul");
+        require(_newSoul != _newSoul, "_newSoul is equal to 0");
+        owner[_tokenId] = _newSoul;
     }
 
-    function idByAccount(address _account) external view returns(uint256){
-        return accountToId[_account];
-    }    
+    function ownerOf(uint256 _tokenId) external view returns (address){
+        return owner[_tokenId];
+    }
 
-    function changeAccount(
-        uint256 _id, 
-        address _newAccount,
-        address _dynamicNftCollection, 
-        address _nftCollection
-    ) external onlyNethermind(0x6550f1d2){
-        require(_newAccount != address(0x00));
-        delete accountToId[idToAccount[_id]];
-        idToAccount[_id] = _newAccount;
-        accountToId[_newAccount] = _id;
-        DynamicNFT dnft = DynamicNFT(_dynamicNftCollection);
-        NFT nft = NFT(_nftCollection);
-        address account = idToAccount[_id];
-        dnft.changeAccount(account, idToAccount[nethermindId]);
-        nft.changeAccount(account, idToAccount[nethermindId]);
+    function tokenURI(uint256 _tokenId) external view returns (string memory){
+        return uri[_tokenId];
     }
 }
