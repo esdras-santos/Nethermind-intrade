@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract NethermindSBT {
+import "./interfaces/ISBT.sol";
+
+contract NethermindSBT is ISBT{
     address private operations;
     address private hr;
     uint256 private tokenIdCounter;
