@@ -4,11 +4,13 @@ pragma solidity ^0.8.9;
 contract NethermindSBT {
     address private operations;
     address private hr;
-    uint256 private tokenCounter;
+    uint256 private tokenIdCounter;
+    uint256 private _totalSupply;
     string private _name;
     // need to add a list for pending transactions
     mapping (uint256=>string) private uri;
     mapping (uint256=>address) private owner;
+    mapping (address=>uint256) private token;
 
     struct MultSig{
         bool opVoted;
@@ -56,14 +58,18 @@ contract NethermindSBT {
 
     function issue(address _soul, string memory _uri) onlyNethermind(0x009a0443) external {
         require(_soul != address(0));
-        uri[tokenCounter] = _uri;
-        owner[tokenCounter] = _soul;
-        tokenCounter+=1;
+        uri[tokenIdCounter] = _uri;
+        owner[tokenIdCounter] = _soul;
+        token[_soul] = tokenIdCounter;
+        tokenIdCounter+=1;
+        _totalSupply+=1;
     }
 
-    function revoke(uint256 _tokenId) onlyNethermind(0x20c5429b) external {       
+    function revoke(address _soul, uint256 _tokenId) onlyNethermind(0x20c5429b) external {       
         delete uri[_tokenId];
         delete owner[_tokenId];
+        delete token[_soul];
+        _totalSupply-=1;
     }
 
     // commutnity recovery to avoid the private key commercialization
@@ -71,10 +77,20 @@ contract NethermindSBT {
         require(_oldSoul == owner[_tokenId], "current owner is not equal to _oldSoul");
         require(_newSoul != address(0), "_newSoul is equal to 0");
         owner[_tokenId] = _newSoul;
+        delete token[_oldSoul];
+        token[_newSoul] = _tokenId;
     }
 
     function ownerOf(uint256 _tokenId) external view returns (address){
         return owner[_tokenId];
+    }
+
+    function tokenOfOwner(address _soul) external view returns (uint256) {
+        return token[_soul];
+    }
+
+    function totalSupply() external view returns (uint256) {
+        return _totalSupply;        
     }
 
     function tokenURI(uint256 _tokenId) external view returns (string memory){
