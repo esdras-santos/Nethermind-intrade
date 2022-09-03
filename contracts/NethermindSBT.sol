@@ -63,6 +63,7 @@ contract NethermindSBT is ISBT{
         uri[tokenIdCounter] = _uri;
         owner[tokenIdCounter] = _soul;
         token[_soul] = tokenIdCounter;
+        emit Issued(_soul, tokenIdCounter);
         tokenIdCounter+=1;
         _totalSupply+=1;
     }
@@ -72,6 +73,7 @@ contract NethermindSBT is ISBT{
         delete owner[_tokenId];
         delete token[_soul];
         _totalSupply-=1;
+        emit Revoked(_soul, _tokenId);
     }
 
     // commutnity recovery to avoid the private key commercialization
@@ -81,6 +83,7 @@ contract NethermindSBT is ISBT{
         owner[_tokenId] = _newSoul;
         delete token[_oldSoul];
         token[_newSoul] = _tokenId;
+        emit Recovered(_oldSoul, _newSoul, _tokenId);
     }
 
     function ownerOf(uint256 _tokenId) external view returns (address){
