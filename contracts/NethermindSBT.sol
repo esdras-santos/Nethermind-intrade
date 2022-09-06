@@ -79,6 +79,7 @@ contract NethermindSBT is ISBT{
     // commutnity recovery to avoid the private key commercialization
     function recover(address _oldSoul, address _newSoul, uint256 _tokenId) external onlyNethermind(0x00) {
         require(_oldSoul == owner[_tokenId], "current owner is not equal to _oldSoul");
+        require(_tokenId == token[_oldSoul], "_oldSoul is not the owner of _tokenId");
         require(_newSoul != address(0), "_newSoul is equal to 0");
         owner[_tokenId] = _newSoul;
         delete token[_oldSoul];
