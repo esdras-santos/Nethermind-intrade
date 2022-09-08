@@ -16,7 +16,7 @@ contract ERC721Collection is ERC721{
         _setTokenURI(newItemId, _tokenURI);
         tokenCounter = tokenCounter + 1;
         factory = msg.sender;
- ------       return newItemId;
+        return newItemId;
     }
 
     function _setTokenURI(uint256 _tokenId, string memory _tokenURI) private{

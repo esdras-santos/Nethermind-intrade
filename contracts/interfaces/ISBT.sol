@@ -1,11 +1,11 @@
 pragma solidity ^0.8.9;
 
 interface ISBT{
-    event Issued(address indexed _soul, uint256 indexed _tokenId);
+    event Issued(address _soul, uint256 _tokenId);
 
-    event Revoked(address indexed _soul, uint256 indexed _tokenId);
+    event Revoked(address _soul, uint256 _tokenId);
 
-    event Recovered(address indexed _oldSoul, address indexed _newSoul, uint256 indexed _tokenId);
+    event Recovered(address _oldSoul, address _newSoul, uint256 _tokenId);
 
     function name() external view returns (string memory);
 
