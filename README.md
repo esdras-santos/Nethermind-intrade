@@ -19,3 +19,6 @@
 
 `tokenURI` function: return the URI that points to the metadata of an intern SBT.
 
+
+
+Transpilation abandoned No arguments being passed to the constructor of CairoContract #1097 ERC721
