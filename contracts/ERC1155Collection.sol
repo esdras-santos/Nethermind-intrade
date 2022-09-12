@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "./token/ERC1155/ERC1155.sol";
 
 contract ERC1155Collection is ERC1155{
     uint256 private tokenCounter;
