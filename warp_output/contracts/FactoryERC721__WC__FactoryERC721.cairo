@@ -4,15 +4,15 @@ from warplib.memory import wm_read_felt, wm_read_256, wm_new, wm_dyn_array_lengt
 from starkware.cairo.common.uint256 import uint256_sub, uint256_add, Uint256
 from starkware.cairo.common.alloc import alloc
 from warplib.maths.utils import narrow_safe, felt_to_uint256
-from warplib.maths.int_conversions import warp_uint256
+from warplib.maths.custom.int_conversions import warp_uint256
 from warplib.maths.external_input_check_address import warp_external_input_check_address
-from warplib.maths.external_input_check_ints import warp_external_input_check_int8
+from warplib.maths.custom.external_input_check_ints import warp_external_input_check_int8
 from starkware.cairo.common.dict import dict_write
 from starkware.cairo.common.dict_access import DictAccess
 from starkware.cairo.common.cairo_builtins import HashBuiltin, BitwiseBuiltin
 from warplib.maths.lt import warp_lt256
 from warplib.maths.neq import warp_neq
-from warplib.maths.add import warp_add256
+from warplib.maths.custom.add import warp_add256
 from warplib.maths.sub import warp_sub256
 from starkware.starknet.common.syscalls import get_caller_address, deploy
 from warplib.maths.eq import warp_eq
@@ -336,7 +336,7 @@ namespace FactoryERC721:
             let (__warp_se_7) = wm_to_calldata0(__warp_usrid5__tokenURI)
 
             ERC721Collection_warped_interface.createCollectible_5b193d07(
-                __warp_usrid8_collection, __warp_se_6, __warp_se_7.len, __warp_se_7.ptr
+                __warp_usrid8_collection, __warp_se_6,  __warp_usrid5__tokenURI
             )
 
             let (__warp_se_8) = warp_add256(__warp_usrid9_i, Uint256(low=1, high=0))
@@ -725,8 +725,7 @@ end
 namespace ERC721Collection_warped_interface:
     func createCollectible_5b193d07(
         __warp_usrid5__intern : felt,
-        __warp_usrid6__tokenURI_len : felt,
-        __warp_usrid6__tokenURI : felt*,
+        __warp_usrid6__tokenURI : felt,
     ) -> (__warp_usrid7_ : Uint256):
     end
 
@@ -736,11 +735,6 @@ namespace ERC721Collection_warped_interface:
     end
 
     func factory_c45a0155() -> (__warp_usrid13_ : felt):
-    end
-
-    func tokenUri_1675f455(__warp_usrid14__i0 : Uint256) -> (
-        __warp_usrid15__len : felt, __warp_usrid15_ : felt*
-    ):
     end
 
     func constructor():

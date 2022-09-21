@@ -4,10 +4,10 @@ from starkware.cairo.common.dict import dict_read, dict_write
 from starkware.cairo.common.uint256 import uint256_sub, uint256_lt, Uint256, uint256_eq, uint256_add
 from warplib.memory import wm_dyn_array_length, wm_new
 from warplib.maths.utils import narrow_safe, felt_to_uint256
-from warplib.maths.int_conversions import warp_uint256
+from warplib.maths.custom.int_conversions import warp_uint256
 from starkware.cairo.common.alloc import alloc
 from warplib.maths.external_input_check_address import warp_external_input_check_address
-from warplib.maths.external_input_check_ints import (
+from warplib.maths.custom.external_input_check_ints import (
     warp_external_input_check_int8,
     warp_external_input_check_int256,
 )
@@ -17,7 +17,7 @@ from warplib.maths.eq import warp_eq, warp_eq256
 from warplib.maths.neq import warp_neq
 from warplib.maths.sub import warp_sub256
 from starkware.cairo.common.dict_access import DictAccess
-from warplib.maths.add import warp_add256
+from warplib.maths.custom.add import warp_add256
 from starkware.cairo.common.default_dict import default_dict_new, default_dict_finalize
 
 struct cd_dynarray_felt:
@@ -137,6 +137,7 @@ func ws_dynamic_array_to_calldata0_write{
     end
     let (index_uint256) = warp_uint256(index)
     let (elem_loc) = WARP_DARRAY0_felt.read(loc, index_uint256)
+    
     let (elem) = WS1_READ_felt(elem_loc)
     assert ptr[index] = elem
     return ws_dynamic_array_to_calldata0_write(loc, index + 1, len, ptr)

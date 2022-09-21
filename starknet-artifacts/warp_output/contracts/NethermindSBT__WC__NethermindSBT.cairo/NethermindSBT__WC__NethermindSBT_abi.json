@@ -1,0 +1,223 @@
+[
+    {
+        "members": [
+            {
+                "name": "low",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "high",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "Uint256",
+        "size": 2,
+        "type": "struct"
+    },
+    {
+        "data": [
+            {
+                "name": "__warp_usrid4__oldSoul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid5__newSoul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid6__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "Recovered_fff3b384",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "__warp_usrid2__soul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid3__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "Revoked_713b9088",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "__warp_usrid0__soul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid1__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "Issued_a59f12e3",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "name_06fdde03",
+        "outputs": [
+            {
+                "name": "__warp_usrid9__len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid9_",
+                "type": "felt*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid10__soul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid11__uri_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid11__uri",
+                "type": "felt*"
+            }
+        ],
+        "name": "issue_04b444d9",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid12__soul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid13__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "name": "revoke_eac449d9",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid14__oldSoul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid15__newSoul",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid16__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "name": "recover_1ec82cb8",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid17__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "name": "ownerOf_6352211e",
+        "outputs": [
+            {
+                "name": "__warp_usrid18_",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid19__soul",
+                "type": "felt"
+            }
+        ],
+        "name": "tokenOfOwner_294cdf0d",
+        "outputs": [
+            {
+                "name": "__warp_usrid20_",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalSupply_18160ddd",
+        "outputs": [
+            {
+                "name": "__warp_usrid21_",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid22__tokenId",
+                "type": "Uint256"
+            }
+        ],
+        "name": "tokenURI_c87b56dd",
+        "outputs": [
+            {
+                "name": "__warp_usrid23__len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid23_",
+                "type": "felt*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid7__issuer",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid8_name__len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid8_name_",
+                "type": "felt*"
+            }
+        ],
+        "name": "constructor",
+        "outputs": [],
+        "type": "constructor"
+    }
+]

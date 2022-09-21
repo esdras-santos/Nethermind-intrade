@@ -7,6 +7,7 @@ contract ERC721Collection /*is ERC721 */{
     address public factory;
     mapping (uint256=>string) public tokenUri;
     constructor (string memory name, string memory symbol) /* ERC721(name, symbol) */{
+        factory = msg.sender;
         tokenCounter = 0;
     }
 
@@ -15,7 +16,7 @@ contract ERC721Collection /*is ERC721 */{
         // _safeMint(_intern, newItemId);
         // _setTokenURI(newItemId, _tokenURI);
         tokenCounter = tokenCounter + 1;
-        factory = msg.sender;
+        
         return newItemId;
     }
 

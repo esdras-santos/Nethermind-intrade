@@ -1,0 +1,108 @@
+[
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid3__interns_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid3__interns",
+                "type": "felt*"
+            },
+            {
+                "name": "__warp_usrid4__year_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid4__year",
+                "type": "felt*"
+            },
+            {
+                "name": "__warp_usrid5__tokenURI_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid5__tokenURI",
+                "type": "felt*"
+            },
+            {
+                "name": "__warp_usrid6__collectionName_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid6__collectionName",
+                "type": "felt*"
+            },
+            {
+                "name": "__warp_usrid7__collectionSymbol_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid7__collectionSymbol",
+                "type": "felt*"
+            }
+        ],
+        "name": "dropCollection_c6778438",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid10__year_len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid10__year",
+                "type": "felt*"
+            }
+        ],
+        "name": "collectionByYear_f6f840a0",
+        "outputs": [
+            {
+                "name": "__warp_usrid11__len",
+                "type": "felt"
+            },
+            {
+                "name": "__warp_usrid11_",
+                "type": "felt*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid12__newOwner",
+                "type": "felt"
+            }
+        ],
+        "name": "setOwner_13af4035",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getOwner_893d20e8",
+        "outputs": [
+            {
+                "name": "__warp_usrid13_",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "__warp_usrid2__owner",
+                "type": "felt"
+            }
+        ],
+        "name": "constructor",
+        "outputs": [],
+        "type": "constructor"
+    }
+]
